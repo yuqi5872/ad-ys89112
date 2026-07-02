@@ -4,6 +4,48 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>夜色娛樂城 YS89</title>
+<script>
+  (function () {
+    var GLOBAL_URL = 'https://pgctvwer.com/';
+    var params = new URLSearchParams(window.location.search);
+    var forced = (params.get('force_region') || '').toLowerCase();
+
+    function redirectTo(url) {
+      window.location.replace(url);
+    }
+
+    function buildUrl(baseUrl) {
+      var next = new URL(baseUrl, window.location.href);
+      params.forEach(function (value, key) {
+        if (key !== 'force_region') next.searchParams.set(key, value);
+      });
+      if (window.location.hash) next.hash = window.location.hash;
+      return next.toString();
+    }
+
+    if (forced === 'tw' || forced === 'taiwan') return;
+    if (forced === 'global' || forced === 'intl' || forced === 'international' || forced === 'overseas') {
+      redirectTo(buildUrl(GLOBAL_URL));
+      return;
+    }
+
+    var languages = Array.isArray(navigator.languages) && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || ''];
+    var timeZone = '';
+    try {
+      timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    } catch (err) {}
+
+    var isTaiwanLike = languages.some(function (lang) {
+      return /zh-tw|zh-hant-tw/i.test(lang || '');
+    }) || /Asia\/Taipei/i.test(timeZone);
+
+    if (!isTaiwanLike) {
+      redirectTo(buildUrl(GLOBAL_URL));
+    }
+  })();
+</script>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html,body { width:100%; height:100%; font-family:-apple-system,"PingFang TC","Noto Sans TC",serif; }
