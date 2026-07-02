@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>夜色娛樂城 YS89</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { width:100%; height:100%; overflow:hidden; font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif; }
+  body {
+    background:
+      radial-gradient(120% 70% at 50% 0%, #1c1608 0%, transparent 60%),
+      radial-gradient(100% 60% at 50% 100%, #120d04 0%, transparent 55%),
+      linear-gradient(180deg, #070604 0%, #0c0906 45%, #050403 100%);
+    color:#f5e6bd;
+    position:relative;
+  }
+  .wrap { position:fixed; inset:0; max-width:520px; margin:0 auto; display:flex; flex-direction:column; overflow:hidden; }
+
+  /* ── 背景光暈粒子 ── */
+  .glow { position:absolute; border-radius:50%; filter:blur(60px); pointer-events:none; }
+  .glow.g1 { width:60vw; height:60vw; background:rgba(212,175,55,.09); top:-10%; left:-15%; }
+  .glow.g2 { width:50vw; height:50vw; background:rgba(255,200,80,.07); bottom:8%; right:-12%; }
+  .spark { position:absolute; width:4px; height:4px; border-radius:50%; background:#ffd970; opacity:.7; animation:float 6s ease-in-out infinite; pointer-events:none; }
+  @keyframes float { 0%,100%{transform:translateY(0);opacity:.25} 50%{transform:translateY(-26px);opacity:.9} }
+
+  /* ── 跑馬燈公告 ── */
+  .notice {
+    margin:calc(10px + env(safe-area-inset-top)) 14px 8px;
+    border:1px solid rgba(212,175,55,.75);
+    background:linear-gradient(180deg, rgba(35,28,12,.92), rgba(20,16,8,.92));
+    border-radius:999px; padding:8px 14px;
+    display:flex; align-items:center; gap:8px;
+    box-shadow:0 0 18px rgba(212,175,55,.25), inset 0 1px 0 rgba(255,235,170,.25);
+    overflow:hidden; flex:none;
+  }
+  .notice .spk { flex:none; font-size:15px; }
+  .notice .track { flex:1; overflow:hidden; white-space:nowrap; }
+  .notice .txt { display:inline-block; padding-left:100%; animation:marq 12s linear infinite; font-size:14px; font-weight:700; color:#ffe9a8; letter-spacing:.5px; }
+  @keyframes marq { to { transform:translateX(-100%);} }
+
+  /* ── 上排:等級卡 + 右側功能鈕 ── */
+  .hud { position:relative; flex:none; height:0; z-index:5; }
+  .lvcard {
+    position:absolute; left:12px; top:6px;
+    background:linear-gradient(160deg,#241c0c,#141009);
+    border:1px solid rgba(212,175,55,.7);
+    border-radius:14px; padding:8px 12px 9px; min-width:150px;
+    box-shadow:0 6px 18px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,235,170,.2);
+  }
+  .lvcard .name { display:flex; align-items:center; gap:6px; font-size:15px; font-weight:800; color:#ffe9a8; }
+  .lvcard .vip { font-size:10px; font-weight:900; color:#1a1305; background:linear-gradient(180deg,#ffe9a0,#d4af37); border-radius:6px; padding:1px 6px; }
+  .lvcard .coins { margin-top:5px; display:flex; align-items:center; gap:6px; font-size:16px; font-weight:900; color:#ffd970; font-variant-numeric:tabular-nums; }
+  .coin { width:18px; height:18px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fff3c4, #ffcf4d 45%, #b8860b); box-shadow:0 1px 3px rgba(0,0,0,.5); flex:none; position:relative;}
+  .coin::after{content:"¥";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#7a5a08;}
+  .plus { margin-left:2px; width:18px; height:18px; border-radius:50%; background:linear-gradient(180deg,#ffe9a0,#d4af37); color:#1a1305; font-weight:900; font-size:13px; display:flex; align-items:center; justify-content:center; }
+
+  .sidebtns { position:absolute; right:10px; top:6px; display:flex; flex-direction:column; gap:10px; }
+  .sbtn {
+    width:64px; padding:7px 4px 6px; border-radius:14px; text-align:center; position:relative;
+    background:linear-gradient(165deg,#2a210e,#161009);
+    border:1px solid rgba(212,175,55,.65);
+    box-shadow:0 5px 14px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,235,170,.18);
+    color:#ffe9a8; text-decoration:none; display:block;
+  }
+  .sbtn .ico { font-size:22px; line-height:1; display:block; filter:drop-shadow(0 2px 3px rgba(0,0,0,.4)); }
+  .sbtn .lb { font-size:11px; font-weight:800; margin-top:3px; display:block; letter-spacing:.5px; }
+  .sbtn .dot { position:absolute; top:-5px; right:-5px; width:16px; height:16px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#ffe36b,#e6a400); color:#4a3000; font-size:11px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 0 8px rgba(255,205,60,.8); animation:pulse 1.6s infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.18)} }
+
+  /* 頂部立體標題 */
+  .title { position:absolute; z-index:2; top:calc(158px + env(safe-area-inset-top)); left:0; right:0; text-align:center; pointer-events:none; }
+  .title .t1 { font-size:clamp(34px,10vw,46px); font-weight:900; letter-spacing:6px;
+    background:linear-gradient(180deg,#fff6d8 8%,#ffd970 48%,#a87b12 92%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 3px 0 #4a3608) drop-shadow(0 10px 18px rgba(0,0,0,.7));
+  }
+  .title .t2 { margin-top:6px; font-size:clamp(13px,3.6vw,16px); font-weight:800; letter-spacing:4px; color:#c9a94e; }
+  .fcoin { position:absolute; z-index:1; width:34px; height:34px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fff3c4, #ffcf4d 45%, #b8860b);
+    box-shadow:0 4px 10px rgba(0,0,0,.5), inset 0 -3px 6px rgba(140,90,10,.6);
+    display:flex; align-items:center; justify-content:center; font-weight:900; color:#7a5a08; font-size:16px;
+    animation:float 5s ease-in-out infinite; pointer-events:none;
+  }
+
+
+  /* ── 活動電視牆 ── */
+  .tv { position:relative; z-index:3; display:block; width:min(70vw,320px); margin-bottom:2px; text-decoration:none; transform:rotateX(5deg); }
+  .tv-frame { position:relative; border-radius:16px; overflow:hidden; aspect-ratio:4/5;
+    border:3px solid rgba(212,175,55,.9);
+    box-shadow:0 0 34px rgba(212,175,55,.35), 0 20px 44px rgba(0,0,0,.7), inset 0 0 0 2px rgba(0,0,0,.6);
+    background:#0a0805;
+  }
+  .tv-frame .sl { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .7s; }
+  .tv-frame .sl.on { opacity:1; }
+  .tv-dots { position:absolute; left:0; right:0; bottom:8px; display:flex; justify-content:center; gap:6px; z-index:2; }
+  .tv-dots i { width:7px; height:7px; border-radius:50%; background:rgba(255,235,170,.35); transition:.3s; }
+  .tv-dots i.on { background:#ffd970; width:18px; border-radius:4px; box-shadow:0 0 6px rgba(255,217,112,.8); }
+  .tv-legs { display:flex; justify-content:center; gap:34%; }
+  .tv-legs i { width:10px; height:16px; background:linear-gradient(180deg,#8a6410,#3a2c0c); border-radius:0 0 4px 4px; }
+
+  /* 舞台金幣堆/籌碼 */
+  .pile { position:absolute; z-index:3; display:flex; flex-direction:column-reverse; align-items:center; gap:-6px; }
+  .pc { width:34px; height:12px; border-radius:50%; margin-top:-5px;
+    background:linear-gradient(180deg,#ffe9a0 20%,#d4af37 60%,#8a6410);
+    border:1px solid #6b4e0a; box-shadow:0 2px 4px rgba(0,0,0,.5);
+  }
+  .p1 { left:16%; top:26%; } .p2 { left:30%; top:40%; } .p3 { right:18%; top:30%; }
+  .chip { position:absolute; z-index:3; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:900; color:#ffe9a8;
+    background:radial-gradient(circle at 40% 32%, #3a2f18, #191207 70%);
+    border:4px dashed rgba(212,175,55,.85); box-shadow:0 4px 10px rgba(0,0,0,.6), inset 0 0 8px rgba(212,175,55,.3);
+    animation:bob 3s ease-in-out infinite;
+  }
+  .c1 { left:38%; top:18%; animation-delay:.5s; } .c2 { right:32%; top:44%; animation-delay:1.2s; }
+
+  /* ── 中央舞台 ── */
+  .stage { flex:1; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; perspective:900px; min-height:0; padding-top:70px; padding-bottom:6px; }
+
+  /* 螢幕看板 */
+  .board {
+    position:relative; z-index:4; width:min(72vw,330px); border-radius:18px;
+    background:linear-gradient(170deg,#191308,#0d0a05);
+    border:2px solid rgba(212,175,55,.8);
+    box-shadow:0 0 30px rgba(212,175,55,.3), 0 18px 40px rgba(0,0,0,.65), inset 0 0 40px rgba(212,175,55,.08);
+    padding:14px 12px 16px; text-align:center;
+    transform:rotateX(6deg);
+  }
+  .board .tag { display:inline-block; font-size:13px; font-weight:800; letter-spacing:2px; color:#c9a94e; border:1px solid rgba(212,175,55,.55); border-radius:999px; padding:3px 14px; background:rgba(212,175,55,.08); }
+  .board .code {
+    margin-top:8px; font-size:clamp(38px,11vw,54px); font-weight:900; font-style:italic; letter-spacing:1px;
+    background:linear-gradient(180deg,#fff6d8 10%,#ffd970 45%,#b8860b 90%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 3px 12px rgba(212,175,55,.35);
+    line-height:1.05;
+  }
+  .board .sub { margin-top:6px; font-size:13px; color:#d8c48a; font-weight:600; letter-spacing:1px; }
+
+  /* 舞台圓盤 */
+  .disc { position:relative; z-index:2; width:min(100vw,500px); height:min(38vw,190px); margin-top:-8px; flex:none; }
+  .disc .top {
+    position:absolute; inset:0 0 14% 0; border-radius:50%;
+    background:
+      radial-gradient(60% 60% at 50% 40%, rgba(255,220,120,.20), transparent 70%),
+      linear-gradient(180deg,#241c0c,#171107);
+    border:2px solid rgba(212,175,55,.55);
+    box-shadow:inset 0 6px 26px rgba(255,220,130,.12), inset 0 -10px 24px rgba(0,0,0,.55);
+  }
+  .disc .rim { position:absolute; left:2%; right:2%; bottom:0; height:22%; border-radius:50%; background:linear-gradient(180deg,#0f0b05,#050403); border:2px solid rgba(212,175,55,.35); z-index:-1; }
+  .disc .ring { position:absolute; left:9%; right:9%; top:14%; bottom:30%; border-radius:50%; border:1px dashed rgba(255,220,130,.35); }
+
+  /* 禮物盒 */
+  .gift { position:absolute; z-index:1; }
+  .gift .bx { position:relative; width:100%; padding-top:86%; }
+  .gift .bd { position:absolute; inset:22% 0 0 0; background:linear-gradient(165deg,#e6b93d,#8a6410); border-radius:12%; box-shadow:0 10px 20px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,240,190,.5); }
+  .gift .lid { position:absolute; left:-5%; right:-5%; top:10%; height:20%; background:linear-gradient(165deg,#f3d06a,#a97c14); border-radius:10%; box-shadow:inset 0 2px 0 rgba(255,240,190,.6); }
+  .gift .rb { position:absolute; left:46%; top:0; bottom:0; width:8%; background:linear-gradient(90deg,#3a2c0c,#241a06); }
+  .gift .bw { position:absolute; left:50%; top:-4%; width:46%; height:22%; transform:translateX(-50%); }
+  .gift .bw::before,.gift .bw::after { content:""; position:absolute; top:0; width:46%; height:100%; border:3px solid #3a2c0c; border-radius:50% 50% 0 0; background:rgba(58,44,12,.35); }
+  .gift .bw::before { left:0; transform:skewX(-14deg);} .gift .bw::after { right:0; transform:skewX(14deg);}
+  .g1 { width:18%; left:-3%; top:-34%; }
+  .g2 { width:22%; right:-5%; top:-40%; }
+  .g3 { width:13%; left:13%; top:52%; }
+  .g4 { width:14%; right:12%; top:56%; }
+
+  /* LOGO 立體字 */
+  .brand { position:absolute; z-index:4; right:5%; bottom:-2%; font-size:clamp(26px,7vw,38px); font-weight:900; font-style:italic; letter-spacing:1px;
+    background:linear-gradient(180deg,#fff6d8,#ffd970 50%,#a87b12);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 3px 0 #5b4308) drop-shadow(0 8px 14px rgba(0,0,0,.6));
+    transform:rotate(-4deg);
+  }
+  .brand small { font-size:.52em; letter-spacing:2px; }
+
+  /* ── 已註冊滾動 ── */
+  .ticker { flex:none; margin:10px auto 8px; z-index:5; background:rgba(8,6,3,.85); border:1px solid rgba(212,175,55,.5); border-radius:999px; padding:8px 18px; display:flex; align-items:center; gap:8px; font-size:14px; font-weight:700; color:#ffe9a8; box-shadow:0 4px 14px rgba(0,0,0,.5); min-width:230px; justify-content:center; }
+  .ticker .bub { font-size:15px; }
+  .ticker #tk { transition:opacity .3s; }
+
+  /* ── 底部 CTA ── */
+  .ctabar { flex:none; display:flex; align-items:flex-end; justify-content:center; gap:14px; padding:0 14px calc(16px + env(safe-area-inset-bottom)); z-index:6; }
+  .cta-side { flex:none; width:86px; text-align:center; text-decoration:none; color:#ffe9a8; }
+  .cta-side .pad { display:block; width:100%; border-radius:16px; padding:9px 4px 7px; background:linear-gradient(165deg,#2a210e,#151009); border:1px solid rgba(212,175,55,.65); box-shadow:0 6px 16px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,235,170,.2); }
+  .cta-side .ico { font-size:24px; display:block; line-height:1; }
+  .cta-side .lb { display:block; font-size:12px; font-weight:800; margin-top:3px; }
+  .cta-main { flex:1; max-width:250px; text-decoration:none; display:block; text-align:center; font-size:clamp(22px,6.4vw,28px); font-weight:900; letter-spacing:4px; color:#3a2600;
+    padding:15px 8px; border-radius:20px;
+    background:linear-gradient(180deg,#ffe9a0 0%,#ffcf4d 45%,#d4941a 100%);
+    border:2px solid #fff0c0;
+    box-shadow:0 0 26px rgba(255,205,80,.55), 0 10px 24px rgba(0,0,0,.55), inset 0 2px 0 rgba(255,255,230,.8), inset 0 -4px 8px rgba(140,90,10,.55);
+    animation:breath 1.8s ease-in-out infinite;
+  }
+  @keyframes breath { 0%,100%{transform:scale(1)} 50%{transform:scale(1.045)} }
+
+  
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <i class="spark" style="left:12%;top:30%"></i>
+  <i class="spark" style="left:80%;top:24%;animation-delay:1.2s"></i>
+  <i class="spark" style="left:24%;top:64%;animation-delay:2.4s"></i>
+  <i class="spark" style="left:68%;top:58%;animation-delay:3.1s"></i>
+  <i class="spark" style="left:50%;top:18%;animation-delay:1.8s"></i>
+
+  <!-- 公告跑馬燈 -->
+  <div class="notice">
+    <span class="spk">📢</span>
+    <div class="track"><span class="txt">公告：首儲1000送1000，只要1倍流水！VIP 專屬回饋週週領，出金快速安全有保障！</span></div>
+  </div>
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="lvcard">
+      <div class="name">夜色 <span>👑</span><span class="vip">V5</span></div>
+      <div class="coins"><span class="coin"></span><span id="coins">179,988,996</span><span class="plus">＋</span></div>
+    </div>
+    <div class="sidebtns">
+      <a class="sbtn" href="#reg"><span class="dot">!</span><span class="ico">🎥</span><span class="lb">直播LIVE</span></a>
+      <a class="sbtn" href="#reg"><span class="dot">!</span><span class="ico">🎁</span><span class="lb">註冊好禮</span></a>
+      <a class="sbtn" href="#reg"><span class="dot">!</span><span class="ico">🎟️</span><span class="lb">優惠碼</span></a>
+    </div>
+  </div>
+
+  <i class="fcoin" style="left:8%;top:24%;">¥</i>
+  <i class="fcoin" style="right:10%;top:28%;width:26px;height:26px;font-size:12px;animation-delay:1.4s;">¥</i>
+  <i class="fcoin" style="left:20%;top:34%;width:22px;height:22px;font-size:11px;animation-delay:2.6s;">¥</i>
+
+  <!-- 舞台 -->
+  <div class="stage">
+    <!-- 活動電視牆 -->
+    <a class="tv" href="https://ys89.bet/?proxy=d83wfg&utm_source=lp&utm_medium=3drpg&utm_content=banner" id="tvlink">
+      <div class="tv-frame">
+        <img class="sl on" src="img/b1-register-v2.webp" alt="立即註冊領368體驗金">
+        <img class="sl" src="img/b2-sports-v2.webp" alt="體育專區">
+        <img class="sl" src="img/b3-slots-v2.webp" alt="電子專區 ATG戰神賽特">
+        <img class="sl" src="img/b4-baccarat-v2.webp" alt="真人百家樂">
+        <div class="tv-dots"><i class="on"></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="tv-legs"><i></i><i></i></div>
+    </a>
+
+    <!-- 優惠碼看板 -->
+    <div class="board">
+      <span class="tag">優 惠 碼</span>
+      <div class="code">ys891000</div>
+      <div class="sub">首儲 1000 送 1000・1 倍流水即可出金</div>
+    </div>
+
+    <!-- 圓盤舞台 -->
+    <div class="disc">
+      <div class="rim"></div>
+      <div class="top"></div>
+      <div class="ring"></div>
+
+      <!-- 禮物盒 -->
+      <div class="gift g1"><div class="bx"><div class="bd"></div><div class="lid"></div><div class="rb"></div><div class="bw"></div></div></div>
+      <div class="gift g2"><div class="bx"><div class="bd"></div><div class="lid"></div><div class="rb"></div><div class="bw"></div></div></div>
+      <div class="gift g3"><div class="bx"><div class="bd"></div><div class="lid"></div><div class="rb"></div><div class="bw"></div></div></div>
+      <div class="gift g4"><div class="bx"><div class="bd"></div><div class="lid"></div><div class="rb"></div><div class="bw"></div></div></div>
+
+      <!-- 舞台金幣堆 -->
+      <div class="pile p1"><i class="pc"></i><i class="pc"></i><i class="pc"></i></div>
+      <div class="pile p2"><i class="pc"></i><i class="pc"></i></div>
+      <div class="pile p3"><i class="pc"></i><i class="pc"></i><i class="pc"></i><i class="pc"></i></div>
+      <div class="chip c1">168</div>
+      <div class="chip c2">888</div>
+
+      <div class="brand">YS<small>89</small> 夜色</div>
+    </div>
+  </div>
+
+  <!-- 已註冊滾動 -->
+  <div class="ticker"><span class="bub">💬</span><span id="tk">q12***554 已註冊。</span></div>
+
+  <!-- CTA -->
+  <div class="ctabar" id="reg">
+    <a class="cta-side" href="https://ys89.bet/?proxy=d83wfg&utm_source=lp&utm_medium=3drpg&utm_content=withdraw">
+      <span class="pad"><span class="ico">💰</span><span class="lb">取款</span></span>
+    </a>
+    <a class="cta-main" href="https://ys89.bet/?proxy=d83wfg&utm_source=lp&utm_medium=3drpg&utm_content=register">立即註冊</a>
+    <a class="cta-side" href="https://ys89.bet/?proxy=d83wfg&utm_source=lp&utm_medium=3drpg&utm_content=deposit">
+      <span class="pad"><span class="ico">🏦</span><span class="lb">存款</span></span>
+    </a>
+  </div>
+</div>
+
+<script>
+  // 金幣跳動
+  var coins = 179988996, el = document.getElementById('coins');
+  setInterval(function(){
+    coins += Math.floor(Math.random()*900)+80;
+    el.textContent = coins.toLocaleString('en-US');
+  }, 1400);
+
+  // 已註冊滾動
+  var names = ['q12***554','a88***021','ys6***777','lin***391','w09***168','ch3***802','mia***456','k77***009','yu5***233','tw8***660'];
+  var acts = ['已註冊。','剛領取首儲禮金 🎁','已出金 NT$12,800 💸','已註冊。','剛領取優惠碼 🎟️','已出金 NT$5,600 💸','已註冊。'];
+  var tk = document.getElementById('tk'), i = 0;
+  setInterval(function(){
+    tk.style.opacity = 0;
+    setTimeout(function(){
+      i++;
+      tk.textContent = names[i%names.length] + ' ' + acts[i%acts.length];
+      tk.style.opacity = 1;
+    }, 300);
+  }, 2600);
+
+  // 活動圖輪播
+  var sls = document.querySelectorAll('.tv-frame .sl');
+  var dots = document.querySelectorAll('.tv-dots i');
+  var cur = 0;
+  setInterval(function(){
+    sls[cur].classList.remove('on'); dots[cur].classList.remove('on');
+    cur = (cur+1) % sls.length;
+    sls[cur].classList.add('on'); dots[cur].classList.add('on');
+  }, 3000);
+</script>
+</body>
+</html>
