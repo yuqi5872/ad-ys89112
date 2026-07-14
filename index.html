@@ -7,48 +7,20 @@
 <meta property="og:title" content="YS夜色｜新會員免存款領 368 體驗金">
 <meta property="og:description" content="註冊30秒到帳・零風險體驗・立即領取">
 <meta property="og:image" content="img/lp-b-leopard.webp">
+<!-- Meta Pixel Code -->
 <script>
-  (function () {
-    var GLOBAL_URL = 'https://pgctvwer.com/';
-    var params = new URLSearchParams(window.location.search);
-    var forced = (params.get('force_region') || '').toLowerCase();
-
-    function redirectTo(url) {
-      window.location.replace(url);
-    }
-
-    function buildUrl(baseUrl) {
-      var next = new URL(baseUrl, window.location.href);
-      params.forEach(function (value, key) {
-        if (key !== 'force_region') next.searchParams.set(key, value);
-      });
-      if (window.location.hash) next.hash = window.location.hash;
-      return next.toString();
-    }
-
-    if (forced === 'tw' || forced === 'taiwan') return;
-    if (forced === 'global' || forced === 'intl' || forced === 'international' || forced === 'overseas') {
-      redirectTo(buildUrl(GLOBAL_URL));
-      return;
-    }
-
-    var languages = Array.isArray(navigator.languages) && navigator.languages.length
-      ? navigator.languages
-      : [navigator.language || ''];
-    var timeZone = '';
-    try {
-      timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-    } catch (err) {}
-
-    var isTaiwanLike = languages.some(function (lang) {
-      return /zh-tw|zh-hant-tw/i.test(lang || '');
-    }) || /Asia\/Taipei/i.test(timeZone);
-
-    if (!isTaiwanLike) {
-      redirectTo(buildUrl(GLOBAL_URL));
-    }
-  })();
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', 'REPLACE_WITH_META_PIXEL_ID');
+  fbq('track', 'PageView');
 </script>
+<!-- End Meta Pixel Code -->
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html,body { width:100%; font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif; overflow-x:hidden;
@@ -98,6 +70,9 @@
 </style>
 </head>
 <body>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=REPLACE_WITH_META_PIXEL_ID&ev=PageView&noscript=1"
+/></noscript>
 <div class="wrap">
   <a class="hero" href="https://ys89.bet/?proxy=d83wfg&utm_source=ad&utm_medium=lp&utm_campaign=368&utm_content=leopard_b">
     <img src="img/lp-b-leopard.webp" alt="YS夜色 新會員免存款領368體驗金 立即領取">
