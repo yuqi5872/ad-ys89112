@@ -1,110 +1,136 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>YS夜色｜新會員免存款領 368 體驗金</title>
-<meta property="og:title" content="YS夜色｜新會員免存款領 368 體驗金">
-<meta property="og:description" content="註冊30秒到帳・零風險體驗・立即領取">
-<meta property="og:image" content="img/lp-b-leopard.webp">
-<!-- Meta Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', 'REPLACE_WITH_META_PIXEL_ID');
-  fbq('track', 'PageView');
-</script>
-<!-- End Meta Pixel Code -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小夜｜電子實測日記</title>
+<meta name="description" content="我把每一場的本金、注額、餘額都寫下來。加 LINE 一起交流。">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="小夜｜電子實測日記">
+<meta property="og:description" content="我把每一場的本金、注額、餘額都寫下來。加 LINE 一起交流。">
+<meta property="og:image" content="xiaoye.webp">
+<meta property="og:type" content="website">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  html,body { width:100%; font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif; overflow-x:hidden;
-    background:radial-gradient(85% 42% at 50% 90%, rgba(212,175,55,.12), transparent 62%), #050403; }
-  .wrap { max-width:520px; margin:0 auto; position:relative; min-height:100vh; }
+  :root{
+    --green:#06C755;
+    --green-deep:#04913E;
+    --ink:#0B3D22;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    min-height:100vh;
+    background:var(--green);
+    color:#fff;
+    font-family:"PingFang TC","Noto Sans TC","Heiti TC",system-ui,sans-serif;
+    line-height:1.7;
+    display:flex;
+    justify-content:center;
+    padding:32px 20px 48px;
+  }
+  .wrap{width:100%;max-width:420px;text-align:center}
 
-  .hero { display:block; width:100%; position:relative; overflow:hidden; }
-  .hero img { width:100%; height:auto; display:block; }
+  .avatar{
+    width:150px;height:150px;
+    border-radius:50%;
+    object-fit:cover;
+    object-position:50% 8%;
+    border:4px solid rgba(255,255,255,.9);
+    margin:0 auto 20px;
+    display:block;
+  }
+  .name{font-size:15px;letter-spacing:.16em;opacity:.9;margin-bottom:10px}
 
-  .fx { position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
-  .fx .shine { position:absolute; top:-25%; left:-45%; width:38%; height:150%; transform:rotate(16deg);
-    background:linear-gradient(90deg, transparent, rgba(255,255,255,.30), transparent);
-    filter:blur(2px); animation:sweep 4.6s ease-in-out infinite; }
-  @keyframes sweep { 0%{left:-45%} 58%,100%{left:135%} }
-  .fx i { position:absolute; width:6px; height:6px; border-radius:50%; background:#ffe9a8;
-    box-shadow:0 0 9px 2px rgba(255,213,120,.95); opacity:0; animation:rise 5s ease-in-out infinite; }
-  @keyframes rise { 0%{transform:translateY(18px) scale(.5); opacity:0} 22%{opacity:1} 78%{opacity:1} 100%{transform:translateY(-64px) scale(1); opacity:0} }
+  h1{
+    font-size:29px;
+    font-weight:800;
+    line-height:1.45;
+    letter-spacing:.01em;
+    margin-bottom:18px;
+  }
+  h1 em{font-style:normal;display:block;font-size:20px;font-weight:600;opacity:.92;margin-top:8px}
 
-  .trust { display:flex; justify-content:center; gap:16px; margin-bottom:8px;
-    font-size:11.5px; font-weight:700; letter-spacing:.5px; color:#c9a94e; }
-  .trust span::before { content:"✓ "; color:#7CFC9A; }
+  .lead{font-size:17px;opacity:.95;margin-bottom:28px}
 
-  .ticker { margin:0 auto 9px; width:max-content; max-width:96%;
-    display:flex; align-items:center; gap:8px; justify-content:center;
-    font-size:13px; font-weight:700; color:#ffe9a8; letter-spacing:.5px;
-    background:rgba(8,6,3,.82); border:1px solid rgba(212,175,55,.55); border-radius:999px;
-    padding:6px 16px; box-shadow:0 4px 16px rgba(0,0,0,.6); }
-  .ticker .dot { width:7px; height:7px; border-radius:50%; background:#7CFC9A; box-shadow:0 0 8px #7CFC9A; animation:blink 1.4s infinite; flex:none; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
-  #tk { transition:opacity .3s; white-space:nowrap; }
+  .card{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.28);
+    border-radius:16px;
+    padding:20px 18px;
+    text-align:left;
+    margin-bottom:30px;
+  }
+  .card h2{font-size:16px;font-weight:700;margin-bottom:12px;letter-spacing:.02em}
+  .card ul{list-style:none}
+  .card li{position:relative;padding-left:22px;font-size:15.5px;margin-bottom:8px}
+  .card li:last-child{margin-bottom:0}
+  .card li::before{
+    content:"";position:absolute;left:4px;top:11px;
+    width:7px;height:7px;border-radius:50%;background:#fff;opacity:.85;
+  }
 
-  .ctabar { position:fixed; left:0; right:0; bottom:0; z-index:10;
-    max-width:520px; margin:0 auto; padding:14px 16px calc(12px + env(safe-area-inset-bottom));
-    background:linear-gradient(180deg, transparent, rgba(5,4,3,.92) 30%, rgba(5,4,3,.98) 60%); }
-  .cta { display:flex; align-items:center; justify-content:center; text-decoration:none;
-    font-size:clamp(21px,6vw,27px); font-weight:900; letter-spacing:4px; color:#2b1d00;
-    padding:16px 8px; border-radius:16px; position:relative; overflow:hidden;
-    background:linear-gradient(180deg,#ffe9a0 0%,#ffcf4d 46%,#d4941a 100%);
-    border:1px solid #fff0c0;
-    box-shadow:0 0 30px rgba(255,205,80,.55), 0 10px 24px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,230,.85), inset 0 -4px 8px rgba(140,90,10,.5);
-    animation:breath 1.7s ease-in-out infinite; }
-  @keyframes breath { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
-  .cta::after { content:""; position:absolute; top:0; bottom:0; width:48px; transform:skewX(-24deg);
-    background:linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); animation:shine 2.6s ease-in-out infinite; }
-  @keyframes shine { 0%{left:-80px} 55%,100%{left:120%} }
-  .cta .sub { position:absolute; right:14px; bottom:5px; font-size:10px; font-weight:700; letter-spacing:1px; color:#6b4a08; }
+  .cta{
+    display:block;
+    background:#fff;
+    color:var(--green-deep);
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:.03em;
+    text-decoration:none;
+    padding:18px 20px;
+    border-radius:999px;
+    box-shadow:0 8px 22px rgba(0,0,0,.18);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .cta:active{transform:translateY(2px);box-shadow:0 4px 12px rgba(0,0,0,.18)}
+  .cta-sub{font-size:13.5px;opacity:.85;margin-top:12px}
+
+  .note{
+    margin-top:34px;
+    font-size:12.5px;
+    line-height:1.75;
+    opacity:.78;
+    border-top:1px solid rgba(255,255,255,.25);
+    padding-top:16px;
+    text-align:left;
+  }
+
+  @media (max-width:360px){
+    h1{font-size:25px}
+    .cta{font-size:18px}
+  }
 </style>
 </head>
 <body>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=REPLACE_WITH_META_PIXEL_ID&ev=PageView&noscript=1"
-/></noscript>
-<div class="wrap">
-  <a class="hero" href="https://ys89.bet/?proxy=d83wfg&utm_source=ad&utm_medium=lp&utm_campaign=368&utm_content=leopard_b">
-    <img src="img/lp-b-leopard.webp" alt="YS夜色 新會員免存款領368體驗金 立即領取">
-    <div class="fx">
-      <span class="shine"></span>
-      <i style="left:12%;top:34%;animation-delay:.2s"></i>
-      <i style="left:30%;top:52%;animation-delay:1.4s"></i>
-      <i style="left:22%;top:70%;animation-delay:2.6s"></i>
-      <i style="left:46%;top:44%;animation-delay:.8s"></i>
-      <i style="left:70%;top:30%;animation-delay:2.1s"></i>
-      <i style="left:84%;top:58%;animation-delay:3.3s"></i>
-      <i style="left:60%;top:76%;animation-delay:1.0s"></i>
-    </div>
-  </a>
+  <main class="wrap">
+    <img class="avatar" src="xiaoye.webp" alt="小夜">
+    <p class="name">小 夜 ｜ 電 子 實 測 日 記</p>
 
-  <div class="ctabar">
-    <div class="trust"><span>信用版</span><span>24H極速出金</span><span>優質福利</span></div>
-    <div class="ticker"><span class="dot"></span><span id="tk">w09***168 剛領取 368 體驗金</span></div>
-    <a class="cta" href="https://ys89.bet/?proxy=d83wfg&utm_source=ad&utm_medium=lp&utm_campaign=368&utm_content=leopard_b_more">
-      查看更多優惠
-    </a>
-  </div>
-</div>
+    <h1>
+      我不報明牌
+      <em>我只把自己的數字算清楚</em>
+    </h1>
 
-<script>
-  var names=['w09***168','q12***554','a88***021','ys6***777','lin***391','ch3***802','mia***456','k77***009','tw8***660','yu5***233'];
-  var acts=['剛領取 368 體驗金','已註冊成功 🎁','剛領取 368 體驗金','已出金 NT$8,600 💸','剛領取 368 體驗金','已註冊成功 🎁','剛領取 368 體驗金','已出金 NT$12,800 💸'];
-  var tk=document.getElementById('tk'), i=0;
-  setInterval(function(){
-    tk.style.opacity=0;
-    setTimeout(function(){ i++; tk.textContent=names[i%names.length]+' '+acts[i%acts.length]; tk.style.opacity=1; },300);
-  },2600);
-</script>
+    <p class="lead">
+      以前我也是憑手感換台。後來每一場都寫下來，才發現跟我原本以為的差很多。
+    </p>
+
+    <section class="card">
+      <h2>我自己在用的工具</h2>
+      <ul>
+        <li>輸入本金、注額、目前餘額</li>
+        <li>算出淨利、回本距離、最大回撤</li>
+        <li>不預測下一局，也不告訴你何時進場</li>
+      </ul>
+    </section>
+
+    <a class="cta" href="https://line.me/R/ti/p/%40128zirab" rel="noopener">加 LINE 一起交流 →</a>
+    <p class="cta-sub">點下去直接開啟 LINE，我本人會回</p>
+
+    <p class="note">
+      小夜是合作代理，不是中立第三方，被問我就講。這裡的紀錄都是我自己的，樣本不大，不代表所有人的結果。
+      工具算的是你自己輸入的數字，不預測結果、不保證獲利。
+    </p>
+  </main>
 </body>
 </html>
