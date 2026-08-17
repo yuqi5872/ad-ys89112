@@ -43,7 +43,12 @@
 
 var CFG = {
   GA4_ID:        'G-DET0P0309V',        // qwe11a3.site 專屬資料串流「喵喵落地頁」（2026-08-17 建）
-  META_PIXEL_ID: '',                    // 有 Pixel ID 再填，空的就不載入
+  /* Meta Pixel「XY-001」（2026-08-17 加）。只有喵喵這頁有，M3 那頁沒裝。
+     🔴 這裡只放 Pixel ID——它本來就是公開的。
+        CAPI 的 access token 絕對不能放這裡，網頁原始碼任何人都看得到。
+        token 存在 Cloudflare 密鑰，由 /api/capi 那支代發。 */
+  META_PIXEL_ID: '1664265594800673',
+  CAPI_URL:      'https://ys89-seo-dashboard.pages.dev/api/capi',
 
   /* 🔴 代理碼。平台後台只認這個參數，填錯整本帳就歪了。
      zspxbd = fu009 廣告線・喵喵（原本掛 ys89.tw，那站三個月 0 首存，已併入 fu002）
@@ -121,12 +126,37 @@ var CFG = {
     });
   }
 
-  function track(name) {
-    if (window.gtag) gtag('event', name, { campaign_source: src, ad_content: kw });
-    if (window.fbq)  fbq('trackCustom', name, { src: src, content: kw });
+  /* 事件同時走兩條：瀏覽器 Pixel ＋ 伺服器 CAPI。
+     🔴 兩邊要帶同一個 event_id，Meta 才知道是同一次事件、不會重複計算。
+        少了它，一次點擊會被算成兩次，成效看起來憑空多一倍。 */
+  function newId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
   }
-  reg.addEventListener('click',  function () { track('lp_click_register'); });
-  line.addEventListener('click', function () { track('lp_click_line'); });
+  function track(name, standard) {
+    const eid = newId();
+    if (window.gtag) gtag('event', name, { campaign_source: src, ad_content: kw });
+    if (window.fbq) {
+      if (standard) fbq('track', standard, { content_name: name }, { eventID: eid });
+      else fbq('trackCustom', name, { src: src, content: kw }, { eventID: eid });
+    }
+    if (CFG.CAPI_URL) {
+      /* keepalive：使用者按下按鈕後頁面馬上跳走，一般的 fetch 會被中斷。 */
+      fetch(CFG.CAPI_URL, {
+        method: 'POST', keepalive: true,
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          pixel_id: CFG.META_PIXEL_ID, event_name: standard || name, event_id: eid,
+          event_source_url: location.href, src: src, content: kw,
+          fbp: (document.cookie.match(/_fbp=([^;]+)/) || [])[1] || '',
+          fbc: (document.cookie.match(/_fbc=([^;]+)/) || [])[1] || '',
+        }),
+      }).catch(() => {});
+    }
+  }
+  /* 註冊按鈕對應 Meta 的標準事件 Lead——標準事件才能拿來最佳化投放，
+     自訂事件只能看報表。 */
+  reg.addEventListener('click',  function () { track('lp_click_register', 'Lead'); });
+  line.addEventListener('click', function () { track('lp_click_line', 'Contact'); });
 
   if (CFG.GA4_ID) {
     var s = document.createElement('script');
@@ -145,7 +175,16 @@ var CFG = {
     n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
     (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', CFG.META_PIXEL_ID); fbq('track', 'PageView');
+    fbq('init', CFG.META_PIXEL_ID);
+    var pvId = newId();
+    fbq('track', 'PageView', {}, { eventID: pvId });
+    if (CFG.CAPI_URL) {
+      fetch(CFG.CAPI_URL, { method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ pixel_id: CFG.META_PIXEL_ID, event_name: 'PageView',
+          event_id: pvId, event_source_url: location.href, src: src, content: kw,
+          fbp: (document.cookie.match(/_fbp=([^;]+)/) || [])[1] || '',
+          fbc: (document.cookie.match(/_fbc=([^;]+)/) || [])[1] || '' }) }).catch(() => {});
+    }
   }
 })();
 </script>
