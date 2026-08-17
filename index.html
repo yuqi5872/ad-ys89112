@@ -153,9 +153,11 @@ var CFG = {
       }).catch(() => {});
     }
   }
-  /* 註冊按鈕對應 Meta 的標準事件 Lead——標準事件才能拿來最佳化投放，
-     自訂事件只能看報表。 */
-  reg.addEventListener('click',  function () { track('lp_click_register', 'Lead'); });
+  /* 🔴 註冊按鈕送 CompleteRegistration（廣告商要的「註冊」）。
+     它代表的是「按下註冊按鈕」，不是「真的完成註冊」——真註冊在 ys89.bet，
+     那不是我們的站，裝不了 Pixel。回報成效時要記得這是意圖不是結果。
+     真實的註冊與首存另外用 CAPI 從代理碼帳本補送（見 /api/capi）。 */
+  reg.addEventListener('click',  function () { track('lp_click_register', 'CompleteRegistration'); });
   line.addEventListener('click', function () { track('lp_click_line', 'Contact'); });
 
   if (CFG.GA4_ID) {
