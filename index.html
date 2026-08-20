@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>小夜｜電子實測日記</title>
 <meta name="robots" content="noindex,nofollow">
-<meta property="og:title" content="打了三小時，你知道自己是贏是輸嗎？">
-<meta property="og:description" content="免費算給你看：淨利、回本距離、最大回撤。">
+<meta property="og:title" content="打之前，先把重點看懂">
+<meta property="og:description" content="專為玩家設計的紀錄工具：快速記錄、自動整理、一頁回顧。">
 <meta property="og:image" content="hero.webp">
 <link rel="preload" as="image" href="hero.webp">
 <style>
@@ -25,8 +25,7 @@
 <body>
 
 <div class="stage">
-  <img src="hero.webp" alt="打了三小時，你知道自己是贏是輸嗎？免費算給你看：淨利、回本距離、最大回撤。">
-  <a class="hit" id="reg"  href="#">立即註冊</a>
+  <img src="hero.webp" alt="打之前，先把重點看懂。專為玩家設計的紀錄工具：快速記錄、自動整理、一頁回顧。">
   <a class="hit" id="line" href="#">加入 LINE 領解鎖碼</a>
 </div>
 
@@ -53,7 +52,7 @@ var CFG = {
   /* 🔴 代理碼。平台後台只認這個參數，填錯整本帳就歪了。
      zspxbd = fu009 廣告線・喵喵（原本掛 ys89.tw，那站三個月 0 首存，已併入 fu002）
      對照表：.claude/skills/paid-acquisition/data/proxy_map.json */
-  PROXY: 'zspxbd',                      // fu009（原 ys89.tw，2026-08-17 改為廣告線・喵喵）
+  PROXY: 'zspxbd',   // 保留供日後使用；這一版頁面上沒有任何平台連結，用不到                      // fu009（原 ys89.tw，2026-08-17 改為廣告線・喵喵）
 
   /* 🔴 LINE 那顆用 oaMessage 連結：點下去會自動把 STAMP 這句話
      填進他的訊息欄，他按送出，機器人收到就知道他是廣告來的，
@@ -75,8 +74,11 @@ var CFG = {
      註冊領取那條金底約在 y 1530–1650、x 30–915
      兩塊刻意各留一點餘裕，手指按得到；但不能重疊，重疊會誤觸。 */
   HIT: {
-    line: { top: 83.0, left: 7.0, width: 84.0, height: 7.5 },   // 加 LINE 領解鎖碼
-    reg:  { top: 90.8, left: 2.5, width: 95.0, height: 8.5 }    // 註冊領取
+    /* 🔴 2026-08-20 換成跟 M3 同一張新主視覺（941×1672）：整張圖只有一顆
+       CTA，就是最下面那條「加 LINE 領取工具」，約在 y 1395–1520。
+       兩家的頁面刻意保持完全一樣——這波要測的是「哪家廣告商投得好」，
+       頁面不同的話結果分不出是廣告商還是頁面的差別。 */
+    line: { top: 82.5, left: 4.0, width: 92.0, height: 9.5 }
   },
 
   DEFAULT_SRC: 'lp-v3b-miao'
@@ -95,13 +97,9 @@ var CFG = {
     el.style.top = r.top + '%'; el.style.left = r.left + '%';
     el.style.width = r.width + '%'; el.style.height = r.height + '%';
   }
-  var reg = document.getElementById('reg'), line = document.getElementById('line');
-  place(reg, CFG.HIT.reg); place(line, CFG.HIT.line);
+  var line = document.getElementById('line');
+  place(line, CFG.HIT.line);
 
-  reg.href = 'https://ys89.bet/activity/entry?url=/activity/detail/RegistrationBonus/NTD'
-    + '&proxy=' + CFG.PROXY
-    + '&utm_source=' + encodeURIComponent(src)
-    + '&utm_medium=cpc&utm_campaign=seth&utm_content=' + kw;
 
   /* 🔴 oaMessage（自動填好一句話）只有在手機、而且裝了 LINE 才會生效。
      桌機瀏覽器點下去會落到 LINE 官網首頁——2026-08-17 實測踩到。
@@ -157,7 +155,6 @@ var CFG = {
      它代表的是「按下註冊按鈕」，不是「真的完成註冊」——真註冊在 ys89.bet，
      那不是我們的站，裝不了 Pixel。回報成效時要記得這是意圖不是結果。
      真實的註冊與首存另外用 CAPI 從代理碼帳本補送（見 /api/capi）。 */
-  reg.addEventListener('click',  function () { track('lp_click_register', 'CompleteRegistration'); });
   line.addEventListener('click', function () { track('lp_click_line', 'Contact'); });
 
   if (CFG.GA4_ID) {
